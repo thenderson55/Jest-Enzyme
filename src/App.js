@@ -3,7 +3,7 @@ import "./App.css";
 import Congrats from "./components/Congrats";
 import GuessedWords from "./components/GuessedWords";
 import hookActions from "./actions/hookActions";
-import Input from './Input'
+import Input from './components/Input'
 
 const guessedWords = [
   { guessedWord: "train", letterMatchCount: 3 },
