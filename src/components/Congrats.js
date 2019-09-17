@@ -1,12 +1,15 @@
 import React from "react";
 import PropTypes from 'prop-types'
+import languageContext from '../contexts/languageContext'
+import stringsModule from '../helpers/strings'
 
 function Congrats(props) {
+  const language = React.useContext(languageContext)
   return (
     <>
       {props.success ? (
         <div data-test="component-congrats">
-          <span data-test="congrats-message">Congratulations</span>
+          <span data-test="congrats-message">{stringsModule.getStringByLanguage(language, 'congrats')}</span>
         </div>
       ) : (
         <div data-test="component-congrats">

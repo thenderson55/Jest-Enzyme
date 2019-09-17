@@ -1,18 +1,15 @@
 import React from "react";
 import "./App.css";
+import hookActions from "./actions/hookActions";
+import languageContext from "./contexts/languageContext";
+
 import Congrats from "./components/Congrats";
 import GuessedWords from "./components/GuessedWords";
-import hookActions from "./actions/hookActions";
-import Input from './components/Input'
-
-const guessedWords = [
-  { guessedWord: "train", letterMatchCount: 3 },
-  { guessedWord: "agile", letterMatchCount: 1 },
-  { guessedWord: "party", letterMatchCount: 5 }
-];
+import Input from "./components/Input";
+import LanguagePicker from "./components/LanguagePicker";
 
 const initialState = {
-  secretWord: '',
+  secretWord: "",
   language: "en"
 };
 
@@ -20,6 +17,8 @@ const reducer = (state, action) => {
   switch (action.type) {
     case "setSecretWord":
       return { ...state, secretWord: action.payload };
+    case "setLanguage":
+      return { ...state, language: action.payload };
     default:
       throw new Error(`Invalid action type: ${action.type}`);
   }
@@ -31,23 +30,24 @@ function App() {
   const setSecretWord = secretWord =>
     dispatch({ type: "setSecretWord", payload: secretWord });
 
+  const setLanguage = language =>
+    dispatch({ type: "setLanguage", payload: language });
+
   React.useEffect(() => {
     hookActions.getSecretWord(setSecretWord);
   }, []);
 
-  if(!state.secretWord){
-    return (
-      <div data-test="spinner">Spinning......</div>
-    )
+  if (!state.secretWord) {
+    return <div data-test="spinner">Spinning......</div>;
   }
 
   return (
     <div data-test="component-app">
-      <Congrats success={true} />
-      <GuessedWords
-        guessedWords={[{ guessedWord: "train", letterMatchCount: 3 }]}
-      />
-      <Input secretWord={state.secretWord}/>
+      <h1>Jotto</h1>
+      <languageContext.Provider value={state.language}>
+        <LanguagePicker setLanguage={setLanguage}/>
+        <Input secretWord={state.secretWord} />
+      </languageContext.Provider>
     </div>
   );
 }
