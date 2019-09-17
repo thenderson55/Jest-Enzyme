@@ -28,6 +28,17 @@ describe('getSecretWord calls', () => {
     // check to see if secret word was updated
     expect(mockGetSecretWord).toHaveBeenCalled()
   })
+
+  test('does not update on app update', () => {
+    const wrapper = setup()
+    // need to clear after setup so starting fresh
+    mockGetSecretWord.mockClear()
+    // still cannot use update() because won't trigger useEffect (issue 2091)
+    wrapper.setProps()
+
+    expect(mockGetSecretWord).not.toHaveBeenCalled()
+  })
+  
   
 })
 
